@@ -1,0 +1,25 @@
+{
+  "name": "ws-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc -b",
+    "dev": "npm run build && npm run start",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.5.0",
+    "@types/jsonwebtoken": "^9.0.8",
+    "@types/ws": "^8.5.14",
+    "cloudinary": "^2.6.0",
+    "jsonwebtoken": "^9.0.2",
+    "ws": "^8.18.0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "prisma": "^6.5.0"
+  }
+}

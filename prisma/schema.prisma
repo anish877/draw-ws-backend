@@ -1,0 +1,47 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://neondb_owner:npg_s7w2SKtyIplr@ep-delicate-tree-a8q83h87-pooler.eastus2.azure.neon.tech/neondb?sslmode=require"
+}
+
+model User{
+  id         String    @id @default(uuid())
+  email      String    @unique
+  name       String
+  password   String
+  photo      String?
+  rooms      Room[]
+  chats      Chat[]
+  Text_Chat Text_Chat[]
+}
+
+model Room{
+  id          Int       @id @default(autoincrement())
+  slug        String    @unique
+  createdAt   DateTime  @default(now())
+  adminId     String
+  admin       User      @relation(references: [id], fields: [adminId])  
+  chat        Chat[]     
+  Text_Chat Text_Chat[]
+}
+
+model Chat{
+  id          Int       @id @default(autoincrement())
+  roomId      Int
+  message     String
+  userId      String
+  room        Room      @relation(fields: [roomId], references: [id])
+  user        User      @relation(fields: [userId], references: [id])  
+}
+
+model Text_Chat{
+  id          Int       @id @default(autoincrement())
+  roomId      Int
+  message     String
+  userId      String
+  room        Room      @relation(fields: [roomId], references: [id])
+  user        User      @relation(fields: [userId], references: [id])  
+}
