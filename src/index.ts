@@ -4,6 +4,7 @@ const wss = new WebSocketServer({port:8080})
 import { JWT_SECRET } from "./config"
 import { prismaClient } from "./db"
 import { v2 as cloudinary } from "cloudinary"
+import axios from "axios"
 
 interface Users {
     rooms: string[],  // Changed String to string for TypeScript standard
@@ -19,6 +20,23 @@ cloudinary.config({
     api_key: '247246481321692',
     api_secret: 'FWr9b-GToAKYxT5Hs36Fumz7sKQ'
   });
+
+
+  const url = `https://draw-ws-backend.onrender.com`;
+  const interval = 30000;
+  
+  function reloadWebsite() {
+    axios
+      .get(url)
+      .then((response) => {
+        console.log("website reloded");
+      })
+      .catch((error) => {
+        console.error(`Error : ${error.message}`);
+      });
+  }
+  
+  setInterval(reloadWebsite, interval);
 
 wss.on("connection",(ws,request)=>{
     const url = request.url
