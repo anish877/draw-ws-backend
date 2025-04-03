@@ -174,13 +174,12 @@ wss.on("connection",(ws,request)=>{
                 }
                 else if(parsedData.type === "image_element") {
                     // Validate required fields
-                    if (!parsedData.roomId || !parsedData.message || !parsedData.userId || !parsedData.name) {
+                    if (!parsedData.roomId || !parsedData.message || !parsedData.userId) {
                         return;
                     }
                     
                     try {
                         const message = JSON.parse(parsedData.message);
-                        
                         if (!message.src) {
                             return;
                         }
@@ -188,7 +187,6 @@ wss.on("connection",(ws,request)=>{
                         const uploadResponse = await cloudinary.uploader.upload(message.src, {
                             folder: 'chat_images',
                         });
-                        
                         message.src = uploadResponse.secure_url;
                         const updatedMessage = JSON.stringify(message);
                         

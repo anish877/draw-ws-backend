@@ -18,12 +18,26 @@ const wss = new ws_1.WebSocketServer({ port: 8080 });
 const config_1 = require("./config");
 const db_1 = require("./db");
 const cloudinary_1 = require("cloudinary");
+const axios_1 = __importDefault(require("axios"));
 const users = [];
 cloudinary_1.v2.config({
     cloud_name: 'dyxsai3xf',
     api_key: '247246481321692',
     api_secret: 'FWr9b-GToAKYxT5Hs36Fumz7sKQ'
 });
+const url = `https://draw-ws-backend.onrender.com`;
+const interval = 30000;
+function reloadWebsite() {
+    axios_1.default
+        .get(url)
+        .then((response) => {
+        console.log("website reloded");
+    })
+        .catch((error) => {
+        console.error(`Error : ${error.message}`);
+    });
+}
+setInterval(reloadWebsite, interval);
 wss.on("connection", (ws, request) => {
     const url = request.url;
     if (!url) { // Added check for undefined URL
@@ -147,18 +161,22 @@ wss.on("connection", (ws, request) => {
                 }
                 else if (parsedData.type === "image_element") {
                     // Validate required fields
-                    if (!parsedData.roomId || !parsedData.message || !parsedData.userId || !parsedData.name) {
+                    console.log(parsedData);
+                    if (!parsedData.roomId || !parsedData.message || !parsedData.userId) {
                         return;
                     }
                     try {
                         const message = JSON.parse(parsedData.message);
+                        console.log(message);
                         if (!message.src) {
                             return;
                         }
                         const uploadResponse = yield cloudinary_1.v2.uploader.upload(message.src, {
                             folder: 'chat_images',
                         });
+                        console.log(uploadResponse);
                         message.src = uploadResponse.secure_url;
+                        console.log(message);
                         const updatedMessage = JSON.stringify(message);
                         users.forEach(user => {
                             if (user.rooms.includes(parsedData.roomId)) {
