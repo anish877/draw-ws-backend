@@ -14,13 +14,15 @@
     "axios": "^1.8.4",
     "cloudinary": "^2.6.0",
     "jsonwebtoken": "^9.0.2",
-    "ws": "^8.18.0"
+    "ws": "^8.18.0",
+    "typescript": "^5.8.3"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "prisma": "^6.5.0"
+    "prisma": "^6.5.0",
+    "typescript": "^5.8.3"
   }
 }
